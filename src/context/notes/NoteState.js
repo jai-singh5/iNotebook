@@ -21,21 +21,35 @@ const NoteState = (props) => {
   }
 
   // Add a Note
-  const addNote = async (title, description, tag) => {
-    // TODO: API Call
-    // API Call 
-    const response = await fetch(`${host}/api/notes/addnote`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
-      },
-      body: JSON.stringify({title, description, tag})
-    });
+//   const addNote = async (title, description, tag) => {
+//     // TODO: API Call
+//     // API Call 
+//     const response = await fetch(`${host}/api/notes/addnote`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzMWRjNWUzZTQwMzdjZDQ3MzRhMDY2In0sImlhdCI6MTYzMDY2OTU5Nn0.hJS0hx6I7ROugkqjL2CjrJuefA3pJi-IU5yGUbRHI4Q"
+//       },
+//       body: JSON.stringify({title, description, tag})
+//     });
 
+//     const note = await response.json();
+//     // Safely update the notes array
+//   setNotes(prevNotes => [...prevNotes, note]);
+//   }
+
+  const addNote = async () => {
+    const response = await fetch(`${host}/api/notes/addnote`,);
     const note = await response.json();
-    setNotes(notes.concat(note), [])
-  }
+    
+    setNotes(prevNotes => {
+      // Ensure prevNotes is an array
+      if (!Array.isArray(prevNotes)) {
+        return [note];  // If it's not an array, start a new array with the note
+      }
+      return [...prevNotes, note];  // Safely add the new note to the array
+    });
+  };
 
   // Delete a Note
   const deleteNote = async (id) => {
